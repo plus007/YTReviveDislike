@@ -5,7 +5,7 @@ INSTALL_TARGET_PROCESSES = YouTube
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = ReviveDislike
+TWEAK_NAME = YTReviveDislike
 
 ReviveDislike_FILES = Tweak.xm YouTubeDataAPI.xm
 ReviveDislike_CFLAGS = -fobjc-arc

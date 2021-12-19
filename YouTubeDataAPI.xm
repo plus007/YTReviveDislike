@@ -7,10 +7,10 @@
 	void (^completionHandler)(NSString *);
 }
 
--(id)initWithAPIKey:(NSString *)apiKey {
+-(id)init {
 	self = [super init];
 	if (self) {
-		self.apiKey = apiKey;
+		
 	}
 	return self;
 }
@@ -39,15 +39,13 @@
 }
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
 	NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-	NSArray *items = (NSArray *)json[@"items"];
-	NSDictionary *statistics = (NSDictionary *)items[0];
-	NSString *dislike = (NSString *)statistics[@"statistics"][@"dislikeCount"];
-	
+	NSNumber *num = json[@"dislikes"];
+	NSInteger dislike = [num integerValue];
 	if (!dislike) return;//高評価と低評価がOFFの動画の場合
-	completionHandler(dislike);
+	completionHandler([NSString stringWithFormat:@"%ld",(long)dislike]);
 }
 
 -(NSString *)getAPIURLWith:(NSString *)videoID {
-	return [[NSString alloc] initWithFormat:@"https://www.googleapis.com/youtube/v3/videos?key=%@&part=statistics&id=%@",self.apiKey,videoID];
+	return [[NSString alloc] initWithFormat:@"https://returnyoutubedislikeapi.com/votes?videoId=%@",videoID];
 }
 @end

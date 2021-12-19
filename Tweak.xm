@@ -1,12 +1,10 @@
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import "YouTubeDataAPI.h"
 #import "Tweak.h"
 
 %hook YTWatchTransition
 %new
 -(void)receiveTraffic {
-	YouTubeDataAPI *api = [[YouTubeDataAPI alloc] initWithAPIKey:@"YOUR_API_KEY"];
+	YouTubeDataAPI *api = [[YouTubeDataAPI alloc] init];
 	[api getDislike:self.videoID completion:^(NSString *dislike) {
 		NSDictionary *dic = [NSDictionary dictionaryWithObject:dislike forKey:@"Dislike"];
 		NSNotification *notification = [NSNotification notificationWithName:@"Dislike" object:nil userInfo:dic];
@@ -26,13 +24,13 @@
 %hook YTSlimVideoScrollableDetailsActionsView
 NSString *dislike = @"低評価";
 
--(void)layoutSubviews {
+-(void)setNeedsLayout {
 	%orig;
 
 	[self setTextForDislikeButton:dislike];
 	
 	NSNotification *traffic = [NSNotification notificationWithName:@"AllowTraffic" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotification:traffic];
+	[[NSNotificationCenter defaultCenter] postNotification:traffic];//低評価バーのインスタンスが作成されてから低評価数を取得
 
 	NSNotificationCenter *notification = [NSNotificationCenter defaultCenter];
 	[notification addObserver:self selector:@selector(receiveDislikeCount:) name:@"Dislike" object:nil];
@@ -53,8 +51,9 @@ NSString *dislike = @"低評価";
 	NSDictionary *attributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
 	NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:text attributes:attributes];
 
-	label.textAlignment = 4;
+	label.textAlignment = NSTextAlignmentCenter;
 	label.attributedText = attributedString;
+	[self layoutSubviews];
 }
 
 %end

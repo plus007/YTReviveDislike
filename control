@@ -1,8 +1,8 @@
-Package: com.shibuya.revivedislike
-Name: ReviveDislike
+Package: com.sss136.ytrevivedislike
+Name: YTReviveDislike
 Version: 0.0.1
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: This is a tweak to bring back the number of low ratings on Youtube!
 Maintainer: Ryu
 Author: Ryu
 Section: Tweaks

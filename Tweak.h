@@ -1,3 +1,8 @@
+#ifndef _TWEAK_H
+#define _TWEAK_H
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
 @interface YTWatchTransition : NSObject
 @property (nonatomic, strong, readwrite) NSString *videoID;
 -(id)expectedLayout;
@@ -17,4 +22,7 @@
 -(UIViewController *)getCurrentViewController;
 -(void)setNeedsLayout;
 -(void)setTextForDislikeButton:(NSString *)text;
+-(void)layoutIfNeeded;
 @end
+
+#endif
